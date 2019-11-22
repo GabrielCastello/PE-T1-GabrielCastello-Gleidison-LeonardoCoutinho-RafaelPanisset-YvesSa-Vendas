@@ -3,3 +3,5 @@
 48 IgorPereira 1485.12 25 07
 245 LarissaCastro 658.79 18 09
 675 MarcosMedeiros 59.60 20 04
+826 Gabriel 100.000000 24 10
+101 Pedrin 10.000000 2 3
