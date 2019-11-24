@@ -1,3 +1,5 @@
+/* GabrielCastello-Gleidison-LeonardoCoutinho-RafaelPanisset-YvesSa-Vendas */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -21,7 +23,6 @@ void setSellsIDs(FILE *file, int *sellsIDs)
     if (sellID != 0)
     {
       counter++;
-      // printf("\nSellID: %i", sellID);
       sellsIDs[i] = sellID;
       i++;
     }
@@ -35,13 +36,8 @@ int setSellsQty(FILE *file)
   {
     int sellID = 0;
     fscanf(file, "%i %*s %*f %*i %*i", &sellID);
-    // fscanf(file, "%i", &sellID);
     if (sellID != 0)
-    {
       counter++;
-      // printf("\nSellID: %i", sellID);
-      // printf("\ncounter: %i", counter);
-    }
   }
   return counter;
 }
@@ -67,13 +63,10 @@ int genUniqSellCode(int sellsQty, int *sellsIDs, int startNumber, int endNumber)
   do
   {
     randomSellCode = genSellCode(startNumber, endNumber);
-    // printf("randomSellCode: %i", randomSellCode);
     for (int i = 0; i < sellsQty; i++)
     {
       if (randomSellCode == sellsIDs[i])
-      {
         validator = 0;
-      }
     }
   } while (validator == 0);
   return randomSellCode;
@@ -102,9 +95,6 @@ void removeSellFromFile(char *filename)
   char ch;
   int sellCode, delete_line, temp = 1;
 
-  // printf("Enter file name: ");
-  // scanf("%s", filename);
-  //open file in read mode
   fileptr1 = fopen(filename, "r");
   ch = getc(fileptr1);
   while (ch != EOF)
@@ -112,50 +102,37 @@ void removeSellFromFile(char *filename)
     printf("%c", ch);
     ch = getc(fileptr1);
   }
-  //rewind
   rewind(fileptr1);
   printf("\nInforme o código da venda a ser removida:");
   scanf("%d", &sellCode);
   delete_line = 1;
   int end = 0;
-  while (/* !feof(fileptr1) && */ end == 0)
+  while (end == 0)
   {
     char name[100];
     float value = 0;
     int fileSellCode = 0, month = 0, day = 0;
     fscanf(fileptr1, "%i %*s %*f %*i %*i", &fileSellCode);
     if (fileSellCode == sellCode)
-    {
       end = 1;
-    }
     else
-    {
       delete_line++;
-    }
   }
   rewind(fileptr1);
   printf("\nLine to delete: %i", delete_line);
-  //open new file in write mode
   fileptr2 = fopen("temp.txt", "w");
   ch = 'A';
   while (ch != EOF)
   {
     ch = getc(fileptr1);
-    //except the line to be deleted
     if (temp != delete_line && !feof(fileptr1))
-    {
-      //copy all lines in file replica.c
       putc(ch, fileptr2);
-    }
     if (ch == '\n')
-    {
       temp++;
-    }
   }
   fclose(fileptr1);
   fclose(fileptr2);
   remove(filename);
-  //rename the file replica.c to original name
   rename("temp.txt", filename);
   printf("\n The contents of file after being modified are as follows:\n");
   fileptr1 = fopen(filename, "r");
@@ -198,9 +175,7 @@ void listSellsBySeller(char *filename)
   }
   fclose(fileptr1);
   if (counter == 0)
-  {
     printf("Nenhuma venda registrada para o vendedor %s!", inputName);
-  }
 }
 
 void listSellsBySellerWithFilter(char *filename, int showCounter)
@@ -225,9 +200,7 @@ void listSellsBySellerWithFilter(char *filename, int showCounter)
     scanf("%i", &filter);
     printf("\n");
     if (!(filter == 1 || filter == 2))
-    {
       printf("\nOpção inválida!");
-    }
 
   } while (!(filter == 1 || filter == 2));
 
@@ -242,9 +215,7 @@ void listSellsBySellerWithFilter(char *filename, int showCounter)
       scanf("%i", &inputDay);
       printf("\n");
       if (!(inputDay > 0 && inputDay <= 31))
-      {
         printf("\nDia inválido!");
-      }
     } while (!(inputDay > 0 && inputDay <= 31));
 
     while (!feof(fileptr1))
@@ -261,20 +232,14 @@ void listSellsBySellerWithFilter(char *filename, int showCounter)
           counter++;
           sum = sum + value;
           if (!showCounter)
-          {
             printf("%i %s %2.2f %i %i\n", fileSellCode, name, value, day, month);
-          }
         }
       }
     }
     if (counter == 0)
-    {
       printf("Nenhuma venda registrada para o vendedor %s no dia(%i)!", inputName, inputDay);
-    }
     if (showCounter && counter != 0)
-    {
       printf("\nValor total das %i vendas do vendedor %s no dia(%i): R$: %.2f", counter, inputName, inputDay, sum);
-    }
     break;
   case 2:
     printf("\nVocê selecionou a opção mês.");
@@ -285,9 +250,7 @@ void listSellsBySellerWithFilter(char *filename, int showCounter)
       scanf("%i", &inputMonth);
       printf("\n");
       if (!(inputMonth > 0 && inputMonth <= 12))
-      {
         printf("\nMês inválido!");
-      }
     } while (!(inputMonth > 0 && inputMonth <= 12));
 
     while (!feof(fileptr1))
@@ -304,21 +267,14 @@ void listSellsBySellerWithFilter(char *filename, int showCounter)
           counter++;
           sum = sum + value;
           if (!showCounter)
-          {
             printf("%i %s %2.2f %i %i\n", fileSellCode, name, value, day, month);
-          }
         }
       }
     }
     if (counter == 0)
-    {
       printf("Nenhuma venda registrada para o vendedor %s no mês(%i)!", inputName, inputMonth);
-    }
     if (showCounter && counter != 0)
-    {
       printf("\nValor total das %i vendas do vendedor %s no mês(%i): R$: %.2f", counter, inputName, inputMonth, sum);
-    }
-
     break;
   default:
 
@@ -330,33 +286,25 @@ void listSellsBySellerWithFilter(char *filename, int showCounter)
 int main()
 {
   srand(time(NULL));
-  /* Abre o arquivo Vendas.txt no modo leitura "r" */
   char filename[] = "Vendas.txt";
-  // FILE *sellsFile = fopen("Vendas.txt", "r");
   FILE *sellsFile = fopen(filename, "r");
 
   if (!verifyFile(sellsFile))
   {
-    /* Cria o arquivo Vendas.txt no modo de escrita */
     printf("\nArquivo Vendas.txt não foi localizado...");
     sellsFile = fopen(filename, "w");
     fclose(sellsFile);
     sellsFile = fopen(filename, "r");
     if (verifyFile(sellsFile))
-    {
       printf("\nArquivo Vendas.txt criado com sucesso.");
-      // insertSellToFile(sellsFile, name, value, day, month);
-    }
   }
   int sellsQty = setSellsQty(sellsFile);
   int startNumber = 1, endNumber = 1000;
   int sellsIDs[sellsQty];
 
-  // printf("\nTotal de vendas: %i", sellsQty);
   rewind(sellsFile);
   setSellsIDs(sellsFile, sellsIDs);
   fclose(sellsFile);
-  // getSellsIDs(sellsIDs, sellsQty);
 
   int selectedOption;
   printf("\n\nBem-vindo ao software de vendas !");
@@ -390,9 +338,7 @@ int main()
         fclose(sellsFile);
       }
       else
-      {
         printf("\nLimite de %i vendas atingido, para adicionar uma venda remova uma venda anterior.", endNumber);
-      }
 
       break;
     case 2:
@@ -404,39 +350,25 @@ int main()
         fclose(sellsFile);
       }
       else
-      {
         printf("\nNenhuma venda localizada, operação não permitida");
-      }
       break;
     case 3:
       if (sellsQty > 0)
-      {
         listSellsBySeller(filename);
-      }
       else
-      {
         printf("\nNenhuma venda localizada, operação não permitida");
-      }
       break;
     case 4:
       if (sellsQty > 0)
-      {
         listSellsBySellerWithFilter(filename, 0);
-      }
       else
-      {
         printf("\nNenhuma venda localizada, operação não permitida");
-      }
       break;
     case 5:
       if (sellsQty > 0)
-      {
         listSellsBySellerWithFilter(filename, 1);
-      }
       else
-      {
         printf("\nNenhuma venda localizada, operação não permitida");
-      }
       break;
     case 6:
       printf("Ate logo, volte sempre!! \n");
