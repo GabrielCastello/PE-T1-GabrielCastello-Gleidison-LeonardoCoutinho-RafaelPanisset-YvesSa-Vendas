@@ -34,12 +34,12 @@ git push, caso seja primeiro push git push --set-upstream origin master
 ## Objetivo do Trabalho
 ### Vendas
 Faça um algoritmo para gerenciar registros de vendas dos funcionários de uma loja. Para cada venda armazene o código da venda (gerado aleatoriamente de 1 até 1000), o nome do vendedor (sem espaços), o valor da venda, além do dia e do mês da venda. O algoritmo deve permitir:
-- [ ] (1) Inserir uma venda (o código da venda não pode ser repetido);
-- [ ] (2) Remover uma venda pelo código da venda;
-- [ ] (3) Listar na tela todas as vendas de um vendedor pesquisando pelo nome do vendedor;
-- [ ] (4) Listar na tela todas as vendas de um vendedor em um determinado dia ou mês;
-- [ ] (5) Imprimir na tela o valor total de vendas de um vendedor em um determinado dia ou mês;
-- [ ] (6) Sair da execução do algoritmo.
+- [x] (1) Inserir uma venda (o código da venda não pode ser repetido);
+- [x] (2) Remover uma venda pelo código da venda;
+- [x] (3) Listar na tela todas as vendas de um vendedor pesquisando pelo nome do vendedor;
+- [x] (4) Listar na tela todas as vendas de um vendedor em um determinado dia ou mês;
+- [x] (5) Imprimir na tela o valor total de vendas de um vendedor em um determinado dia ou mês;
+- [x] (6) Sair da execução do algoritmo.
 
 Os registros de vendas têm que ser armazenados em um arquivo texto chamado “Vendas.txt”, sobre o qual as operações de (1) até (5) devem ser realizadas. Obviamente as opções de (2) até (5) só podem ocorrer se houver alguma venda inserida no arquivo. Utilize um procedimento para cada operação de (1) até (5). Utilize um menu para apresentar as opções.
 
