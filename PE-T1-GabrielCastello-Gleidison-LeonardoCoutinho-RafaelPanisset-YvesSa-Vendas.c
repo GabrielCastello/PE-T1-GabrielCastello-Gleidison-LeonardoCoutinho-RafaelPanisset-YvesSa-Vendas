@@ -349,7 +349,7 @@ int main()
     }
   }
   int sellsQty = setSellsQty(sellsFile);
-  int startNumber = 1, endNumber = 4;
+  int startNumber = 1, endNumber = 1000;
   int sellsIDs[sellsQty];
 
   // printf("\nTotal de vendas: %i", sellsQty);
