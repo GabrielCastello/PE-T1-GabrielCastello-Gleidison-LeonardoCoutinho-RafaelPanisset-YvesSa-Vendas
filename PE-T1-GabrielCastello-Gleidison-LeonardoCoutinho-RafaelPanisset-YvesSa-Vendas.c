@@ -68,7 +68,7 @@ int genUniqSellCode(int sellsQty, int *sellsIDs)
   do
   {
     randomSellCode = genSellCode();
-    printf("randomSellCode: %i", randomSellCode);
+    // printf("randomSellCode: %i", randomSellCode);
     for (int i = 0; i < sellsQty; i++)
     {
       if (randomSellCode == sellsIDs[i])
@@ -380,23 +380,52 @@ int main()
     case 1:
       sellsFile = fopen(filename, "a");
       insertSellToFile(sellsFile, sellsQty, sellsIDs);
+      sellsFile = fopen(filename, "r");
+      sellsQty = setSellsQty(sellsFile);
+      fclose(sellsFile);
       break;
     case 2:
-      removeSellFromFile(filename);
-      // removeSales(vendasFile, &counter, codeSales);
+      if (sellsQty > 0)
+      {
+        removeSellFromFile(filename);
+        sellsFile = fopen(filename, "r");
+        sellsQty = setSellsQty(sellsFile);
+        fclose(sellsFile);
+      }
+      else
+      {
+        printf("\nNenhuma venda localizada, operação não permitida");
+      }
       break;
     case 3:
-      listSellsBySeller(filename);
-
-      // listSallersNames(vendasFile);
+      if (sellsQty > 0)
+      {
+        listSellsBySeller(filename);
+      }
+      else
+      {
+        printf("\nNenhuma venda localizada, operação não permitida");
+      }
       break;
     case 4:
-      listSellsBySellerWithFilter(filename, 0);
-      // listSallersDay(vendasFile);
+      if (sellsQty > 0)
+      {
+        listSellsBySellerWithFilter(filename, 0);
+      }
+      else
+      {
+        printf("\nNenhuma venda localizada, operação não permitida");
+      }
       break;
     case 5:
-      listSellsBySellerWithFilter(filename, 1);
-      // printSallersValue(vendasFile);
+      if (sellsQty > 0)
+      {
+        listSellsBySellerWithFilter(filename, 1);
+      }
+      else
+      {
+        printf("\nNenhuma venda localizada, operação não permitida");
+      }
       break;
     case 6:
       printf("Ate logo, volte sempre!! \n");
