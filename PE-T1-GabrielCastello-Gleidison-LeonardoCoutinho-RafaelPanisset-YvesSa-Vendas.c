@@ -330,76 +330,76 @@ int main()
 {
   srand(time(NULL));
   /* Abre o arquivo Vendas.txt no modo leitura "r" */
-  char filename[] = "replica.txt";
+  char filename[] = "Vendas.txt";
   // FILE *sellsFile = fopen("Vendas.txt", "r");
   FILE *sellsFile = fopen(filename, "r");
+
   if (!verifyFile(sellsFile))
   {
     /* Cria o arquivo Vendas.txt no modo de escrita */
-    printf("\nCriando arquivo Vendas.txt...");
-    sellsFile = fopen("Vendas.txt", "w");
+    printf("\nArquivo Vendas.txt não foi localizado...");
+    sellsFile = fopen(filename, "w");
+    fclose(sellsFile);
+    sellsFile = fopen(filename, "r");
     if (verifyFile(sellsFile))
     {
       printf("\nArquivo Vendas.txt criado com sucesso.");
       // insertSellToFile(sellsFile, name, value, day, month);
     }
   }
-  else
+  int sellsQty = setSellsQty(sellsFile);
+  int sellsIDs[sellsQty];
+
+  // printf("\nTotal de vendas: %i", sellsQty);
+  rewind(sellsFile);
+  setSellsIDs(sellsFile, sellsIDs);
+  fclose(sellsFile);
+  // getSellsIDs(sellsIDs, sellsQty);
+
+  int selectedOption;
+  printf("\n\nBem-vindo ao software de vendas !");
+  do
   {
-    int sellsQty = setSellsQty(sellsFile);
-    int sellsIDs[sellsQty];
+    selectedOption = 0;
 
-    // printf("\nTotal de vendas: %i", sellsQty);
-    rewind(sellsFile);
-    setSellsIDs(sellsFile, sellsIDs);
-    fclose(sellsFile);
-    // getSellsIDs(sellsIDs, sellsQty);
-
-    int selectedOption;
-    printf("\n\nBem-vindo ao software de vendas !");
-    do
+    printf("\n\nSelecione um dos items do menu: ");
+    printf("\n######################################################################################################");
+    printf("\n# - (1) Inserir uma venda (o código da venda não pode ser repetido)                                  #");
+    printf("\n# - (2) Remover uma venda pelo código da venda                                                       #");
+    printf("\n# - (3) Listar na tela todas as vendas de um vendedor pesquisando pelo nome do vendedor              #");
+    printf("\n# - (4) Listar na tela todas as vendas de um vendedor em um determinado dia ou mês                   #");
+    printf("\n# - (5) Imprimir na tela o valor total de vendas de um vendedor em um determinado dia ou mês         #");
+    printf("\n# - (6) Sair da execução do algoritmo                                                                #");
+    printf("\n######################################################################################################");
+    printf("\n");
+    scanf("%i", &selectedOption);
+    switch (selectedOption)
     {
-      selectedOption = 0;
+    case 1:
+      sellsFile = fopen(filename, "a");
+      insertSellToFile(sellsFile, sellsQty, sellsIDs);
+      break;
+    case 2:
+      removeSellFromFile(filename);
+      // removeSales(vendasFile, &counter, codeSales);
+      break;
+    case 3:
+      listSellsBySeller(filename);
 
-      printf("\n\nSelecione um dos items do menu: ");
-      printf("\n######################################################################################################");
-      printf("\n# - (1) Inserir uma venda (o código da venda não pode ser repetido)                                  #");
-      printf("\n# - (2) Remover uma venda pelo código da venda                                                       #");
-      printf("\n# - (3) Listar na tela todas as vendas de um vendedor pesquisando pelo nome do vendedor              #");
-      printf("\n# - (4) Listar na tela todas as vendas de um vendedor em um determinado dia ou mês                   #");
-      printf("\n# - (5) Imprimir na tela o valor total de vendas de um vendedor em um determinado dia ou mês         #");
-      printf("\n# - (6) Sair da execução do algoritmo                                                                #");
-      printf("\n######################################################################################################");
-      printf("\n");
-      scanf("%i", &selectedOption);
-      switch (selectedOption)
-      {
-      case 1:
-        sellsFile = fopen(filename, "a");
-        insertSellToFile(sellsFile, sellsQty, sellsIDs);
-        break;
-      case 2:
-        removeSellFromFile(filename);
-        // removeSales(vendasFile, &counter, codeSales);
-        break;
-      case 3:
-        listSellsBySeller(filename);
-
-        // listSallersNames(vendasFile);
-        break;
-      case 4:
-        listSellsBySellerWithFilter(filename, 0);
-        // listSallersDay(vendasFile);
-        break;
-      case 5:
-        listSellsBySellerWithFilter(filename, 1);
-        // printSallersValue(vendasFile);
-        break;
-      case 6:
-        printf("Ate logo, volte sempre!! \n");
-        break;
-      }
-    } while (selectedOption != 6);
-    return 0;
-  }
+      // listSallersNames(vendasFile);
+      break;
+    case 4:
+      listSellsBySellerWithFilter(filename, 0);
+      // listSallersDay(vendasFile);
+      break;
+    case 5:
+      listSellsBySellerWithFilter(filename, 1);
+      // printSallersValue(vendasFile);
+      break;
+    case 6:
+      printf("Ate logo, volte sempre!! \n");
+      break;
+    }
+  } while (selectedOption != 6);
+  return 0;
 }
