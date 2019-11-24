@@ -1,7 +1,9 @@
-12 BrunoSouza 785.54 10 5
 147 CarlosSilva 415.89 4 6
+48 IgorPereira 1485.12 25 7
 245 LarissaCastro 658.79 18 9
+675 MarcosMedeiros 59.60 20 4
 826 Gabriel 100.000000 24 10
 828 Gabriel 50.000000 24 11
 101 Pedrin 10.000000 2 3
 761 Jao 10.000000 2 10
+638 Pedrin 150.000000 4 10ÿ

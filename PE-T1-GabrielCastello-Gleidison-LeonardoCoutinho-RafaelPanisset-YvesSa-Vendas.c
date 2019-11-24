@@ -46,9 +46,8 @@ int setSellsQty(FILE *file)
   return counter;
 }
 
-int genSellCode()
+int genSellCode(int startNumber, int endNumber)
 {
-  int startNumber = 1, endNumber = 1000;
   return rand() % endNumber + startNumber;
 }
 
@@ -62,12 +61,12 @@ int verifyFile(FILE *file)
   return 1;
 };
 
-int genUniqSellCode(int sellsQty, int *sellsIDs)
+int genUniqSellCode(int sellsQty, int *sellsIDs, int startNumber, int endNumber)
 {
   int randomSellCode, validator = 1;
   do
   {
-    randomSellCode = genSellCode();
+    randomSellCode = genSellCode(startNumber, endNumber);
     // printf("randomSellCode: %i", randomSellCode);
     for (int i = 0; i < sellsQty; i++)
     {
@@ -80,7 +79,7 @@ int genUniqSellCode(int sellsQty, int *sellsIDs)
   return randomSellCode;
 }
 
-int insertSellToFile(FILE *file, int sellsQty, int *sellsIDs)
+int insertSellToFile(FILE *file, int sellsQty, int *sellsIDs, int startNumber, int endNumber)
 {
   char name[100];
   float value = 0;
@@ -93,7 +92,7 @@ int insertSellToFile(FILE *file, int sellsQty, int *sellsIDs)
   scanf("%i", &day);
   printf("\nInforme o mês da venda: ");
   scanf("%i", &month);
-  fprintf(file, "%i %s %f %i %i\n", genUniqSellCode(sellsQty, sellsIDs), name, value, day, month);
+  fprintf(file, "%i %s %f %i %i\n", genUniqSellCode(sellsQty, sellsIDs, startNumber, endNumber), name, value, day, month);
   fclose(file);
 }
 
@@ -137,13 +136,13 @@ void removeSellFromFile(char *filename)
   rewind(fileptr1);
   printf("\nLine to delete: %i", delete_line);
   //open new file in write mode
-  fileptr2 = fopen("replica.c", "w");
+  fileptr2 = fopen("temp.txt", "w");
   ch = 'A';
   while (ch != EOF)
   {
     ch = getc(fileptr1);
     //except the line to be deleted
-    if (temp != delete_line)
+    if (temp != delete_line && !feof(fileptr1))
     {
       //copy all lines in file replica.c
       putc(ch, fileptr2);
@@ -157,7 +156,7 @@ void removeSellFromFile(char *filename)
   fclose(fileptr2);
   remove(filename);
   //rename the file replica.c to original name
-  rename("replica.c", filename);
+  rename("temp.txt", filename);
   printf("\n The contents of file after being modified are as follows:\n");
   fileptr1 = fopen(filename, "r");
   ch = getc(fileptr1);
@@ -350,6 +349,7 @@ int main()
     }
   }
   int sellsQty = setSellsQty(sellsFile);
+  int startNumber = 1, endNumber = 1000;
   int sellsIDs[sellsQty];
 
   // printf("\nTotal de vendas: %i", sellsQty);
@@ -378,11 +378,22 @@ int main()
     switch (selectedOption)
     {
     case 1:
-      sellsFile = fopen(filename, "a");
-      insertSellToFile(sellsFile, sellsQty, sellsIDs);
       sellsFile = fopen(filename, "r");
       sellsQty = setSellsQty(sellsFile);
       fclose(sellsFile);
+      if (sellsQty < endNumber)
+      {
+        sellsFile = fopen(filename, "a");
+        insertSellToFile(sellsFile, sellsQty, sellsIDs, startNumber, endNumber);
+        sellsFile = fopen(filename, "r");
+        sellsQty = setSellsQty(sellsFile);
+        fclose(sellsFile);
+      }
+      else
+      {
+        printf("\nLimite de %i vendas atingido, para adicionar uma venda remova uma venda anterior.", endNumber);
+      }
+
       break;
     case 2:
       if (sellsQty > 0)
