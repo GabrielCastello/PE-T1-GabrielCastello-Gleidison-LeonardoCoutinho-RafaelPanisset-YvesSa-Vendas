@@ -181,7 +181,7 @@ void listSellsBySeller(char *filename)
   }
   rewind(fileptr1);
   printf("\n\nInforme o nome do vendedor: ");
-  scanf(" %[^\n]s", inputName);
+  scanf(" %s", inputName);
   printf("\n");
   while (!feof(fileptr1))
   {
@@ -216,7 +216,7 @@ void listSellsBySellerWithFilter(char *filename, int showCounter)
   }
   rewind(fileptr1);
   printf("\n\nInforme o nome do vendedor: ");
-  scanf(" %[^\n]s", inputName);
+  scanf(" %s", inputName);
 
   do
   {
@@ -349,7 +349,7 @@ int main()
     }
   }
   int sellsQty = setSellsQty(sellsFile);
-  int startNumber = 1, endNumber = 1000;
+  int startNumber = 1, endNumber = 4;
   int sellsIDs[sellsQty];
 
   // printf("\nTotal de vendas: %i", sellsQty);
