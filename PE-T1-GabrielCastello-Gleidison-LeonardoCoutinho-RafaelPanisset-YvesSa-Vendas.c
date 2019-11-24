@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <string.h>
 
 void getSellsIDs(int *sellsIDs, int sellsQty)
@@ -9,14 +11,14 @@ void getSellsIDs(int *sellsIDs, int sellsQty)
   }
 }
 
-void setSellsIDs(int *file, int *sellsIDs)
+void setSellsIDs(FILE *file, int *sellsIDs)
 {
   int counter = 0, i = 0;
   while (!feof(file))
   {
-    int sellID = NULL;
+    int sellID = 0;
     fscanf(file, "%i %*s %*f %*i %*i", &sellID);
-    if (sellID != NULL)
+    if (sellID != 0)
     {
       counter++;
       // printf("\nSellID: %i", sellID);
@@ -26,7 +28,7 @@ void setSellsIDs(int *file, int *sellsIDs)
   }
 }
 
-int setSellsQty(int *file)
+int setSellsQty(FILE *file)
 {
   int counter = 0;
   while (!feof(file))
@@ -50,7 +52,7 @@ int genSellCode()
   return rand() % endNumber + startNumber;
 }
 
-int verifyFile(int *file)
+int verifyFile(FILE *file)
 {
   if (file == NULL)
   {
@@ -78,7 +80,7 @@ int genUniqSellCode(int sellsQty, int *sellsIDs)
   return randomSellCode;
 }
 
-int insertSellToFile(int *file, int sellsQty, int *sellsIDs)
+int insertSellToFile(FILE *file, int sellsQty, int *sellsIDs)
 {
   char name[100];
   float value = 0;
